@@ -1,0 +1,16 @@
+.form {
+    display: flex;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.column:not(:first-child) {
+    margin-left: 50px;
+}
+
+.column label {
+    margin-top: 10px;
+}

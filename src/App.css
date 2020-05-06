@@ -1,0 +1,10 @@
+.container {
+    height: 100%;
+    width: 100%;
+    padding: 10px;
+    display: flex;
+}
+
+.form {
+    margin-bottom: 10px;
+}
