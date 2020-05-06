@@ -8,7 +8,16 @@ const Piece1: FunctionComponent<IPiece> = ({ pieceValues }: IPiece) => {
     const line1Y = defaultSize * (pieceValues.coteA || 0) / 100;
     const line2X = defaultSize * (pieceValues.coteB || 0) / 100;
     const line3Y = defaultSize * (pieceValues.coteC || 0) / 100;
-    const line2Y = pieceValues.coteA < pieceValues.coteC ? line1Y - offset : line3Y - offset;
+    let line2Y = 0;
+    if (pieceValues.coteA || pieceValues.coteC) {
+        if (pieceValues.coteA && pieceValues.coteC) {
+            line2Y = pieceValues.coteA < pieceValues.coteC ? line1Y - offset : line3Y - offset;
+        } else if (pieceValues.coteA) {
+            line2Y = line1Y - offset;
+        } else {
+            line2Y = line3Y - offset;
+        }
+    }
     const line4X = defaultSize * (pieceValues.coteD || 0) / 100;
     const angle1 = pieceValues.angle1 > 90 ? (pieceValues.angle1 - 90) * -1 : Math.abs(pieceValues.angle1 - 90);
     const angle2 = pieceValues.angle2 > 90 ? (pieceValues.angle2 - 90) : pieceValues.angle2 - 90;
@@ -23,31 +32,40 @@ const Piece1: FunctionComponent<IPiece> = ({ pieceValues }: IPiece) => {
     console.log(translate1, translate2, pieceValues.coteA, pieceValues.coteB);
     return (
         <svg width="1600px" height="1600px" viewBox="-800 -800 1600 1600">
-            <g stroke={lineColor} strokeWidth={lineWidth}
-               transform={`rotate(${angle1} ${0} ${line1YTransformOrigin}) ${translate1}`}>
-                <line x1="0" x2="0" y1="0" y2={line1Y} />
-                <line x1="-15" x2="-15" y1="0" y2={line1Y} stroke="grey" />
-                <line x1="-20" x2="-10" y1="0" y2="0" stroke="grey" />
-                <line x1="-20" x2="-10" y1={line1Y} y2={line1Y} stroke="grey" />
-                <text strokeWidth="1" x="-100" y={line1Y / 2}>({pieceValues.coteA}) A</text>
-            </g>
-            <g strokeWidth={lineWidth}>
-                <line x1="0" x2={line2X} y1={line2Y} y2={line2Y} stroke={lineColor} strokeWidth={lineWidth} />
-                <line x1="0" x2={line2X} y1={line2Y + 20} y2={line2Y + 20} stroke="grey" />
-                <line x1="0" x2="0" y1={line2Y + 15} y2={line2Y + 25} stroke="grey" />
-                <line x1={line2X} x2={line2X} y1={line2Y + 15} y2={line2Y + 25} stroke="grey" />
-                <text strokeWidth="1" x={line2X / 3} y={line2Y + 50}>({pieceValues.coteB}) B</text>
-            </g>
-            <g strokeWidth={lineWidth} transform={`rotate(${angle2} ${line2X} ${line1YTransformOrigin}) ${translate2}`}>
-                <line x1={line2X} x2={line2X} y1="0" y2={line3Y} stroke={lineColor} />
-                <line x1={line2X + 15} x2={line2X + 15} y1="0" y2={line3Y} stroke="grey" />
-                <line x1={line2X + 20} x2={line2X + 10} y1="0" y2="0" stroke="grey" />
-                <line x1={line2X + 20} x2={line2X + 10} y1={line3Y} y2={line3Y} stroke="grey" />
-                <text strokeWidth="1" x={line2X + 50} y={line3Y / 2}>({pieceValues.coteC}) C</text>
-                <g strokeWidth={lineWidth} transform={`rotate(${angle3} ${line2X} ${offset})`}>
-                    <line x1={line2X} x2={line4X + line2X} y1={0} y2={0} stroke={lineColor} strokeWidth={lineWidth} />
+            {pieceValues.coteA && (
+                <g stroke={lineColor} strokeWidth={lineWidth}
+                   transform={`rotate(${angle1} ${0} ${line1YTransformOrigin}) ${translate1}`}>
+                    <line x1="0" x2="0" y1="0" y2={line1Y} />
+                    <line x1="-15" x2="-15" y1="0" y2={line1Y} stroke="grey" />
+                    <line x1="-20" x2="-10" y1="0" y2="0" stroke="grey" />
+                    <line x1="-20" x2="-10" y1={line1Y} y2={line1Y} stroke="grey" />
+                    <text strokeWidth="1" x="-100" y={line1Y / 2}>({pieceValues.coteA}) A</text>
                 </g>
-            </g>
+            )}
+            {pieceValues.coteB && (
+                <g strokeWidth={lineWidth}>
+                    <line x1="0" x2={line2X} y1={line2Y} y2={line2Y} stroke={lineColor} strokeWidth={lineWidth} />
+                    <line x1="0" x2={line2X} y1={line2Y + 20} y2={line2Y + 20} stroke="grey" />
+                    <line x1="0" x2="0" y1={line2Y + 15} y2={line2Y + 25} stroke="grey" />
+                    <line x1={line2X} x2={line2X} y1={line2Y + 15} y2={line2Y + 25} stroke="grey" />
+                    <text strokeWidth="1" x={line2X / 3} y={line2Y + 50}>({pieceValues.coteB}) B</text>
+                </g>
+            )}
+
+            {pieceValues.coteC && (
+                <g strokeWidth={lineWidth} transform={`rotate(${angle2} ${line2X} ${line1YTransformOrigin}) ${translate2}`}>
+                    <line x1={line2X} x2={line2X} y1="0" y2={line3Y} stroke={lineColor} />
+                    <line x1={line2X + 15} x2={line2X + 15} y1="0" y2={line3Y} stroke="grey" />
+                    <line x1={line2X + 20} x2={line2X + 10} y1="0" y2="0" stroke="grey" />
+                    <line x1={line2X + 20} x2={line2X + 10} y1={line3Y} y2={line3Y} stroke="grey" />
+                    <text strokeWidth="1" x={line2X + 50} y={line3Y / 2}>({pieceValues.coteC}) C</text>
+                    {pieceValues.coteD && (
+                        <g strokeWidth={lineWidth} transform={`rotate(${angle3} ${line2X} ${offset})`}>
+                            <line x1={line2X} x2={line4X + line2X} y1={0} y2={0} stroke={lineColor} strokeWidth={lineWidth} />
+                        </g>
+                    )}
+                </g>
+            )}
         </svg>
     );
 }
