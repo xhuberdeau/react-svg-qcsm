@@ -22,7 +22,7 @@ const Piece1: FunctionComponent<IPiece> = ({ pieceValues }: IPiece) => {
         : "";
     console.log(translate1, translate2, pieceValues.coteA, pieceValues.coteB);
     return (
-        <svg width="800px" height="800px" viewBox="-800 -800 1600 1600">
+        <svg width="1600px" height="1600px" viewBox="-800 -800 1600 1600">
             <g stroke={lineColor} strokeWidth={lineWidth}
                transform={`rotate(${angle1} ${0} ${line1YTransformOrigin}) ${translate1}`}>
                 <line x1="0" x2="0" y1="0" y2={line1Y} />

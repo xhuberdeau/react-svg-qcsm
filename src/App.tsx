@@ -5,7 +5,7 @@ import Piece1 from "./pieces/piece1";
 import PieceType from "./types/pieceType";
 
 function App() {
-    const [pieceState, setPieceState] = useState<PieceType>({angle1: 90, angle2: 90} as PieceType);
+    const [pieceState, setPieceState] = useState<PieceType>({angle1: 90, angle2: 90, angle3: 120, coteA: 40, coteB: 120, coteC: 40, coteD: 80} as PieceType);
 
     const onPieceChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         setPieceState({
