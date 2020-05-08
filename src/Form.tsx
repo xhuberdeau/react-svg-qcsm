@@ -19,8 +19,10 @@ const Form: FunctionComponent<FormProps> = ({ pieceValues, changePieceValue }: F
             <input type="number" id="coteC" name="coteC" defaultValue={pieceValues.coteC} onChange={changePieceValue} />
             <label htmlFor="coteD">Cote D</label>
             <input type="number" id="coteD" name="coteD" defaultValue={pieceValues.coteD} onChange={changePieceValue} />
+            {/*
             <label htmlFor="coteE">Cote E</label>
             <input type="number" id="coteE" name="coteE" defaultValue={pieceValues.coteE} onChange={changePieceValue} />
+            */}
         </div>
         <div className="column">
             <label htmlFor="angle1">Angle 1</label>
@@ -32,9 +34,11 @@ const Form: FunctionComponent<FormProps> = ({ pieceValues, changePieceValue }: F
             <label htmlFor="angle3">Angle 3</label>
             <input type="number" id="angle3" name="angle3" defaultValue={pieceValues.angle3}
                    onChange={changePieceValue} />
+            {/*
             <label htmlFor="angle4">Angle 4</label>
             <input type="number" id="angle4" name="angle4" defaultValue={pieceValues.angle4}
                    onChange={changePieceValue} />
+           */}
         </div>
     </form>
 );

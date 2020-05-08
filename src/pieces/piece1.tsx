@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { defaultSize, lineColor, lineWidth } from "../pieceConfig";
+import { defaultSize, lineColor, lineWidth } from "../pieceHelper";
 import { IPiece } from "../types/pieceType";
 
 const offset = lineWidth / 2;
@@ -29,13 +29,13 @@ const Piece1: FunctionComponent<IPiece> = ({ pieceValues }: IPiece) => {
     const translate2 = pieceValues.coteC && pieceValues.coteA && pieceValues.coteC > pieceValues.coteA
         ? `translate(0 ${pieceValues.coteA - pieceValues.coteC})`
         : "";
-    console.log(translate1, translate2, pieceValues.coteA, pieceValues.coteB);
+
     return (
-        <svg width="1600px" height="1600px" viewBox="-800 -800 1600 1600">
+        <svg width="1000px" height="1000px" viewBox="-500 -500 1000 1000">
             {pieceValues.coteA && (
-                <g stroke={lineColor} strokeWidth={lineWidth}
+                <g strokeWidth={lineWidth}
                    transform={`rotate(${angle1} ${0} ${line1YTransformOrigin}) ${translate1}`}>
-                    <line x1="0" x2="0" y1="0" y2={line1Y} />
+                    <line x1="0" x2="0" y1="0" y2={line1Y} stroke={lineColor} />
                     <line x1="-15" x2="-15" y1="0" y2={line1Y} stroke="grey" />
                     <line x1="-20" x2="-10" y1="0" y2="0" stroke="grey" />
                     <line x1="-20" x2="-10" y1={line1Y} y2={line1Y} stroke="grey" />
@@ -60,8 +60,12 @@ const Piece1: FunctionComponent<IPiece> = ({ pieceValues }: IPiece) => {
                     <line x1={line2X + 20} x2={line2X + 10} y1={line3Y} y2={line3Y} stroke="grey" />
                     <text strokeWidth="1" x={line2X + 50} y={line3Y / 2}>({pieceValues.coteC}) C</text>
                     {pieceValues.coteD && (
-                        <g strokeWidth={lineWidth} transform={`rotate(${angle3} ${line2X} ${offset})`}>
+                        <g strokeWidth={lineWidth} transform={`rotate(${angle3} ${line2X + offset} ${offset})`}>
                             <line x1={line2X} x2={line4X + line2X} y1={0} y2={0} stroke={lineColor} strokeWidth={lineWidth} />
+                            <line x1={line2X} x2={line2X + line4X} y1="-15" y2={-15} stroke="grey" />
+                            <line x1={line2X} x2={line2X} y1="-20" y2="-10" stroke="grey" />
+                            <line x1={line2X + line4X} x2={line2X + line4X} y1="-20" y2="-10" stroke="grey" />
+                            <text strokeWidth="1" x={(line2X + line4X / 3)} y={-40}>({pieceValues.coteD}) D</text>
                         </g>
                     )}
                 </g>
