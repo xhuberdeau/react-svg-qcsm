@@ -2,7 +2,7 @@ import React, { ChangeEvent, useCallback, useMemo, useState } from "react";
 import "./App.css";
 import GenericForm from "./generic/GenericForm";
 import GenericPiece from "./generic/GenericPiece";
-import { computeSegmentsDistances, convertUnitToDistance } from "./pieceHelper";
+import { computeSegmentsDistances } from "./pieceHelper";
 import GenericPieceType from "./types/GenericPieceType";
 
 const piece: GenericPieceType = {
@@ -33,40 +33,60 @@ const piece: GenericPieceType = {
             name: "ffsdf",
             editable: false,
             degree: 0,
+            direction: "clockwise",
         },
         {
             editable: true,
             name: '1',
             degree: 90,
+            direction: "clockwise",
         },
         {
             editable: true,
             name: '2',
-            degree: 0,
+            degree: 90,
+            direction: "anticlockwise",
         },
         {
             editable: true,
             name: '3',
-            degree: -90,
+            degree: 90,
+            direction: "anticlockwise",
         },
         {
-            editable: false,
+            editable: true,
             name: '4',
-            degree: 0,
+            degree: 90,
+            direction: "clockwise",
         },
     ]
 }
 
 function App() {
-    const [pieceState, setPieceState] = useState({} as any);
-
-    const onPieceChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    const [pieceState, setPieceState] = useState({segments: {}, angles: {}} as any);
+    const onSegmentSizeChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         setPieceState({
-            ...pieceState,
-            [event.currentTarget.name]: Number(event.currentTarget.value),
+            angles: {
+                ...pieceState.angles
+            },
+            segments: {
+                ...pieceState.segments,
+                [event.currentTarget.name]: Number(event.currentTarget.value),
+            }
         });
     }, [pieceState]);
 
+    const onAngleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+        setPieceState({
+            segments: {
+                ...pieceState.segments
+            },
+            angles: {
+                ...pieceState.angles,
+                [event.currentTarget.name]: Number(event.currentTarget.value),
+            }
+        });
+    }, [pieceState]);
 
     const proportions = useMemo(() => {
         const longest = Object.keys(pieceState.segments).reduce((acc: number | null, pieceName) => {
@@ -88,7 +108,7 @@ function App() {
         }
 
         return Object.keys(pieceState.segments).reduce((acc: {}, pieceName) => {
-            const segmentLength = pieceState[pieceName];
+            const segmentLength = pieceState.segments[pieceName];
             if (!segmentLength) {
                 return {...acc, [pieceName]: null};
             }
@@ -98,14 +118,13 @@ function App() {
     }, [pieceState]);
 
     const distances = useMemo(() => {
-        return computeSegmentsDistances(piece, proportions);
+        return computeSegmentsDistances(piece, proportions, pieceState.angles);
     }, [proportions])
-    console.log(proportions);
     return (
         <div className="container">
             <div className="form">
                 {/*<Form pieceValues={pieceState} changePieceValue={onPieceChange} />*/}
-                <GenericForm piece={piece} changePieceValue={onPieceChange} pieceValues={pieceState} />
+                <GenericForm piece={piece} changeAngle={onAngleChange} changeSegmentSize={onSegmentSizeChange} pieceValues={pieceState} />
             </div>
             <div className="pieces">
                 {/* <Piece1 pieceValues={pieceState} /> */}

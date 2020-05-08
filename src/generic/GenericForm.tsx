@@ -6,17 +6,18 @@ import WithGenericPieceType from "../types/withGenericPieceType";
 
 type Form = {
     pieceValues: any,
-    changePieceValue: (event: ChangeEventType) => void,
+    changeSegmentSize: (event: ChangeEventType) => void,
+    changeAngle: (event: ChangeEventType) => void,
 }
-const GenericForm: FunctionComponent<WithGenericPieceType & Form> = ({ piece: { segments, angles }, pieceValues, changePieceValue }) => (
+const GenericForm: FunctionComponent<WithGenericPieceType & Form> = ({ piece: { segments, angles }, pieceValues, changeSegmentSize, changeAngle }) => (
     <>
         {
             segments.map(({ name }, index) => (
                 <>
                     <label htmlFor={name}>Cote {name}</label>
-                    <input key={name} type="number" name={`${segmentIdentifier}${index}`} id={name}
+                    <input key={name} type="number" name={String(index)} id={name}
                            defaultValue={pieceValues[name]}
-                           onChange={changePieceValue} />
+                           onChange={changeSegmentSize} />
                 </>
             ))
         }
@@ -27,9 +28,9 @@ const GenericForm: FunctionComponent<WithGenericPieceType & Form> = ({ piece: { 
                     return (
                         <>
                             <label htmlFor={name}>Angle {name}</label>
-                            <input key={name} type="number" name={`${angleIdentifier}${index}`} id={name}
+                            <input key={name} type="number" name={name} id={name}
                                    defaultValue={pieceValues[name]}
-                                   onChange={changePieceValue} />
+                                   onChange={changeAngle} />
                         </>
                     )
                 })
